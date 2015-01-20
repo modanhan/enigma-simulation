@@ -1,13 +1,13 @@
 #include "rotor.h"
 #include "global_var.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 rotor::rotor() {
 	p = 0;
 	f.assign(C, 0);
-	b.assign(C, 0);
 }
 
 bool rotor::config(const string& s) {
@@ -22,7 +22,6 @@ bool rotor::config(const string& s) {
 			return false;
 		} else {
 			f[i] = s[i];
-			b[s[i] - 97] = i + 97;
 			v[s[i] - 97] = 1;
 		}
 	}
@@ -39,10 +38,13 @@ bool rotor::operator++(int) {
 	}
 }
 
-char& rotor::front(char c) {
+char rotor::front(char c) {
 	return f[(c - 97 + p) % 26];
 }
 
-char& rotor::back(char c) {
-	return b[(c - 97 + 26 - p) % 26];
+char rotor::back(char c) {
+	int d = distance(f.begin(),find(f.begin(),f.end(),c));
+	d += 26-p;
+	d %= 26;
+	return (char)(d + 97);
 }

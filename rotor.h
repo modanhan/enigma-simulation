@@ -9,6 +9,6 @@ public:
 	rotor();
 	bool config(const std::string&);
 	bool operator++(int);
-	char& front(char);
-	char& back(char);
+	char front(char);
+	char back(char);
 };

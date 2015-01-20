@@ -18,8 +18,9 @@ void enc() {
 	size = 3;
 	m.resize(size);
 	bool c = 1;
-	c = c && m[0].config("aacdefghijklmnopqrstuvwxyz");
-	c = c && m[1].config("bacdefghijklmnopqrstuvwxyz");
+
+	c = c && m[0].config("bjscatmvzwhuoxrinleyfpkdqg");
+	c = c && m[1].config("abcdefghijklmnopqrstuvwxyz");
 	c = c && m[2].config("qwertyuioplkjhgfdsazxcvbnm");
 	reflector ref;
 	c = c && ref.config("rfmnjbvsleuicdpozahykgxwtq");
@@ -30,7 +31,7 @@ void enc() {
 	getline(cin, s);
 	for (char c : s) {
 		if (c < 97 || c > 122) {
-			cerr << c;
+			cout << c;
 			continue;
 		}
 		for (int i = 0; i < size; i++) {
@@ -40,7 +41,7 @@ void enc() {
 		for (int i = size - 1; i >= 0; i--) {
 			c = m[i].back(c);
 		}
-		cerr << c;
+		cout << c;
 		bool r = true;
 		for (int i = 0; i < size; i++) {
 			if (r) {
@@ -50,7 +51,7 @@ void enc() {
 			}
 		}
 	}
-	cerr << "\n";
+	cout << "\n";
 }
 
 int main(int argc, char* argv[]) {

@@ -1,0 +1,5 @@
+enigma.exe: rotor.cpp reflector.cpp generator.cpp enigma.cpp
+	cl rotor.cpp -c
+	cl reflector.cpp -c
+	cl generator.cpp -c
+	cl rotor.obj reflector.obj generator.obj enigma.cpp -o enigma.exe
