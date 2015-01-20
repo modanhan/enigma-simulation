@@ -12,7 +12,7 @@ reflector::reflector() {
 
 bool reflector::config(string s) {
 	if (s.size() < C) {
-		cerr << "Reflector misconfiguration:\nInsufficient sequence\n";
+		cout << "Reflector misconfiguration:\nInsufficient sequence\n";
 		return false;
 	}
 	fill(v.begin(), v.end(), 0);
@@ -22,22 +22,22 @@ bool reflector::config(string s) {
 			if ((*this)[s[i]] == 0) {
 				(*this)[s[i]] = i + 97;
 			} else if ((*this)[s[i]] != i + 97) {
-				cerr << "Reflector misconfiguration at:\n";
-				cerr << s << "\n";
+				cout << "Reflector misconfiguration at:\n";
+				cout << s << "\n";
 				for (int j = 0; j < i; j++) {
-					cerr << ' ';
+					cout << ' ';
 				}
-				cerr << "^\n";
+				cout << "^\n";
 				return false;
 			}
 		} else {
 			if (v[i] != s[i]) {
-				cerr << "Reflector misconfiguration at:\n";
-				cerr << s << "\n";
+				cout << "Reflector misconfiguration at:\n";
+				cout << s << "\n";
 				for (int j = 0; j < i; j++) {
-					cerr << ' ';
+					cout << ' ';
 				}
-				cerr << "^\n";
+				cout << "^\n";
 				return false;
 			}
 		}

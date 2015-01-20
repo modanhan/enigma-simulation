@@ -10,15 +10,19 @@ rotor::rotor() {
 	f.assign(C, 0);
 }
 
-bool rotor::config(const string& s) {
+bool rotor::config(const std::string& s) {
+	if (s.size() < C) {
+		cout << "Rotor misconfiguration:\nInsufficient sequence\n";
+		return false;
+	}
 	vector<bool> v(C, 0);
-	for (int i = 0; i < s.size(); i++) {
+	for (int i = 0; i < C; i++) {
 		if (s[i] < 97 || s[i] >= 123 || v[s[i] - 97]) {
-			cerr << "Rotor misconfiguration at:\n" << s << "\n";
+			cout << "Rotor misconfiguration at:\n" << s << "\n";
 			for (int j = 0; j < i; j++) {
-				cerr << " ";
+				cout << " ";
 			}
-			cerr << "^\n";
+			cout << "^\n";
 			return false;
 		} else {
 			f[i] = s[i];
@@ -43,8 +47,8 @@ char rotor::front(char c) {
 }
 
 char rotor::back(char c) {
-	int d = distance(f.begin(),find(f.begin(),f.end(),c));
-	d += 26-p;
+	int d = distance(f.begin(), find(f.begin(), f.end(), c));
+	d += 26 - p;
 	d %= 26;
-	return (char)(d + 97);
+	return (char) (d + 97);
 }

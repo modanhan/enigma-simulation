@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
@@ -9,40 +10,76 @@
 #include "global_var.h"
 using namespace std;
 
+namespace generator {
+ofstream file;
+int index;
+char* memblock;
+vector<char> ref, rot;
+
+void init() {
+	index = 0;
+	memblock = new char[104];
+	ref.assign(C, 0);
+	rot.assign(C, 0);
+}
+
+void generate(int c) {
+	generateref(c);
+	generaterot();
+	generaterot();
+	generaterot();
+}
+
+void write() {
+	file.write(memblock, 104);
+}
+
+void open(string s) {
+	file.open(s, ios::out | ios::binary);
+	if (file.is_open()) {
+		cout << "File successfully opened and output will be written to " << s
+				<< "\n";
+	}
+}
+
+void close() {
+	file.close();
+}
+
 void generateref(int c) {
-	vector<char> v(C, 0);
 	for (int i = 0; i < C; i++) {
-		v[i] = i + 97;
+		ref[i] = i + 97;
 	}
 	vector<bool> b(C, 1);
 	srand(time(0));
 	while (c > 0) {
 		int l = rand() % C, r = rand() % C;
 		if ((l != r) && b[l] && b[r]) {
-			v[l] ^= v[r];
-			v[r] ^= v[l];
-			v[l] ^= v[r];
+			ref[l] ^= ref[r];
+			ref[r] ^= ref[l];
+			ref[l] ^= ref[r];
 			b[l] = 0;
 			b[r] = 0;
 			c--;
 		}
 	}
 	for (int i = 0; i < C; i++) {
-		cout << v[i];
+		memblock[index] = ref[i];
+		index++;
 	}
-	cout << "\n";
 }
 
 void generaterot() {
-	vector<char> v(C, 0);
 	for (int i = 0; i < C; i++) {
-		v[i] = i + 97;
+		rot[i] = i + 97;
 	}
 	random_device rd;
 	mt19937 g(rd());
-	shuffle(v.begin(), v.end(), g);
+	shuffle(rot.begin(), rot.end(), g);
+	int i = index + 26;
 	for (int i = 0; i < C; i++) {
-		cout << v[i];
+		memblock[index] = rot[i];
+		index++;
 	}
-	cout << "\n";
+}
 }

@@ -1,28 +1,38 @@
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include "rotor.h"
 #include "reflector.h"
 #include "enigma.h"
 using namespace std;
 
+namespace enigma {
 typedef vector<rotor> machine;
-
 machine m;
+reflector ref;
 int size;
 
-void type() {
+bool config() {
+	bool b = 1;
 	size = 3;
 	m.resize(size);
-	bool b = 1;
-
-	b = b && m[0].config("bjscatmvzwhuoxrinleyfpkdqg");
-	b = b && m[1].config("abcdefghijklmnopqrstuvwxyz");
-	b = b && m[2].config("qwertyuioplkjhgfdsazxcvbnm");
-	reflector ref;
-	b = b && ref.config("abcnjfvsleuimdpozrhykgxwtq");
-	if (!b) {
-		return;
+	ifstream file;
+	char* memblock = new char[104];
+	file.open(".config", ios::in | ios::binary);
+	if (file.is_open()) {
+		file.read(memblock, 104);
+		b = b && ref.config(memblock);
+		b = b && m[0].config(memblock + 26);
+		b = b && m[1].config(memblock + 26 * 2);
+		b = b && m[2].config(memblock + 26 * 3);
+	} else {
+		cout << "Failed to open enigma configuration file!\n";
+		return false;
 	}
+	return b;
+}
+
+void type() {
 	string s;
 	getline(cin, s);
 	for (char c : s) {
@@ -55,4 +65,5 @@ void type() {
 		}
 	}
 	cout << "\n";
+}
 }
