@@ -1,3 +1,3 @@
 #pragma once
-void generateref();
+void generateref(int);
 void generaterot();

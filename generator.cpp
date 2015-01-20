@@ -9,12 +9,11 @@
 #include "global_var.h"
 using namespace std;
 
-void generateref() {
+void generateref(int c) {
 	vector<char> v(C, 0);
 	for (int i = 0; i < C; i++) {
 		v[i] = i + 97;
 	}
-	int c = C >> 1;
 	vector<bool> b(C, 1);
 	srand(time(0));
 	while (c > 0) {

@@ -1,7 +1,7 @@
-#include "rotor.h"
-#include "global_var.h"
 #include <iostream>
 #include <algorithm>
+#include "rotor.h"
+#include "global_var.h"
 
 using namespace std;
 
