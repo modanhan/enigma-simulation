@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <unistd.h>
 #include "rotor.h"
 #include "reflector.h"
 #include "generator.h"
@@ -45,31 +44,55 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	while ((c = getopt(argc, argv, "f:vc:o:")) != -1) {
-		switch (c) {
-		case 'f': {
-			fflag = 1;
-			fvalue = optarg;
-			break;
+	for (int i = 2; i < argc; i++){
+		if (argv[i][0] == '-'&&strlen(argv[i])==2){
+			switch (argv[i][1]) {
+			case 'f': {
+				fflag = 1;
+				i++;
+				if (i >= argc){
+					cout << argv[0] << ": command requires an argument : -f <file>\n";
+					couthelp(argv);
+					return 0;
+				}
+				fvalue = argv[i];
+				break;
+			}
+			case 'v': {
+				vflag = 1;
+				break;
+			}
+			case 'c': {
+				cflag = 1;
+				i++;
+				if (i >= argc){
+					cout << argv[0] << ": command requires an argument : <0-13 reflector complexity>\n";
+					couthelp(argv);
+				}
+				cvalue = atoi(argv[i]);
+				break;
+			}
+			case 'o': {
+				oflag = 1;
+				i++;
+				if (i >= argc){
+					cout << argv[0] << ": command requires an argument : -f <file>\n";
+					couthelp(argv);
+					return 0;
+				}
+				fvalue = argv[i];
+				break;
+			}
+			default: {
+				couthelp(argv);
+				return 0;
+			}
+			}
 		}
-		case 'v': {
-			vflag = 1;
-			break;
-		}
-		case 'c': {
-			cflag = 1;
-			cvalue = atoi(optarg);
-			break;
-		}
-		case 'o': {
-			oflag = 1;
-			fvalue = optarg;
-			break;
-		}
-		default: {
+		else{
+			cout << argv[0] << ": invalid option: " << argv[i];
 			couthelp(argv);
 			return 0;
-		}
 		}
 	}
 
@@ -121,7 +144,7 @@ int main(int argc, char* argv[]) {
 				return 0;
 			}
 		} else {
-			cout << "Command requires an argument: -f <file>\n";
+			cout << argv[0] << ": command requires an argument: -f <file>\n";
 			couthelp(argv);
 		}
 		break;
@@ -138,7 +161,6 @@ int main(int argc, char* argv[]) {
 		} else {
 			generator::open("enigma.config");
 		}
-		cout << cvalue;
 		generator::generate(cvalue);
 		generator::write();
 		generator::close();
@@ -153,7 +175,7 @@ int main(int argc, char* argv[]) {
 		generator::open("enigma.config");
 		generator::write();
 		generator::close();
-		cout << "Enigma reinitialized with a new configuration.\n";
+		cout << "Enigma reinitialized with a new configuration\n";
 		break;
 	}
 	}
