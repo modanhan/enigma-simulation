@@ -37,8 +37,7 @@ void write() {
 void open(string s) {
 	file.open(s, ios::out | ios::binary);
 	if (file.is_open()) {
-		cout << "File successfully opened and output will be written to " << s
-				<< "\n";
+		cout << "Output will be written to " << s << "\n";
 	}
 }
 
