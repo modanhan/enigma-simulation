@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
 				return 0;
 			}
 		} else {
-			cout << "Command requires an argument: -f <file>\n";
+			cout << argv[0] << ": command requires an argument: -f <file>\n";
 			couthelp(argv);
 		}
 		break;
@@ -153,7 +153,7 @@ int main(int argc, char* argv[]) {
 		generator::open("enigma.config");
 		generator::write();
 		generator::close();
-		cout << "Enigma reinitialized with a new configuration.\n";
+		cout << "Enigma reinitialized with a new configuration\n";
 		break;
 	}
 	}
